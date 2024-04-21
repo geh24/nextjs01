@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "build2": "next build && cd .next\\standalone && xcopy ..\\..\\public public\\ /E && xcopy ..\\static .next\\static\\ /E && npm i sharp",
+    "build_win": "next build && cd .next\\standalone && xcopy ..\\..\\public public\\ /E && xcopy ..\\static .next\\static\\ /E && npm i sharp",
+    "build_linux": "next build && cd .next\/standalone && cp -r ../../public/ . && cp -r ../static/ ./.next && npm i sharp",
     "dev": "next dev",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
