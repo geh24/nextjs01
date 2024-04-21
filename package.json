@@ -3,7 +3,7 @@
   "scripts": {
     "build": "next build",
     "build_win": "next build && cd .next\\standalone && xcopy ..\\..\\public public\\ /E && xcopy ..\\static .next\\static\\ /E && npm i sharp",
-    "build_linux": "next build && cd .next/standalone && cp -r ../../public/ . && cp -r ../static/ ./.next",
+    "build_vm03": "next build && ./deploy_vm03",
     "dev": "next dev",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",

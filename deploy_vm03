@@ -1,0 +1,17 @@
+#!/bin/sh
+set -x
+
+cd .next/standalone
+cp -r ../../public/ .
+cp -r ../static/ ./.next
+
+npm i sharp
+
+#stop node
+
+rm -fr /data/www/nextjs01/.* /data/www/nextjs01/*
+
+cp -dr . /data/www/nextjs01/
+
+# start node
+
