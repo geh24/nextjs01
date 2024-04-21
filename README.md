@@ -2,14 +2,14 @@
 
 ## Build on vm03
 
-npm i sharp
-setenv NEXT_SHARP_PATH /data/nextjs01/nextjs0node_modules/sharp
+npm i sharp  
+setenv NEXT_SHARP_PATH /data/nextjs01/nextjs0node_modules/sharp  
 npm run build_linux
 
 ## Run on vm03
 
-setenv HOSTNAME nextjs01.ghweb.eu
-setenv PORT 3001
+setenv HOSTNAME nextjs01.ghweb.eu  
+setenv PORT 3001  
 node server.js
 
 
