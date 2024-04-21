@@ -3,7 +3,7 @@
   "scripts": {
     "build": "next build",
     "build_win": "next build && cd .next\\standalone && xcopy ..\\..\\public public\\ /E && xcopy ..\\static .next\\static\\ /E && npm i sharp",
-    "build_linux": "next build && cd .next\/standalone && cp -r ../../public/ . && cp -r ../static/ ./.next && npm i sharp",
+    "build_linux": "next build && cd .next/standalone && cp -r ../../public/ . && cp -r ../static/ ./.next",
     "dev": "next dev",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
@@ -22,6 +22,7 @@
     "postcss": "8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sharp": "^0.33.3",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2",
     "zod": "^3.22.2"
