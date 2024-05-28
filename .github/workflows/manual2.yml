@@ -34,10 +34,5 @@ jobs:
         echo "Hello ${{ inputs.name }}"
         pwd
         ls -la
-        cd
-        pwd
-        mkdir .ssh
-        cp .github/workflows/id_rsa .ssh/id_rsa
-        cd
-        cd .ssh
-        ls -la
+        ls -la .github/workflows
+        cp .github/workflows/id_rsa ~/.ssh/id_rsa
