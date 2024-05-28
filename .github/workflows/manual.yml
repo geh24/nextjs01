@@ -29,7 +29,13 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: echo "Hello ${{ inputs.name }}"
+      run:
+        echo "Hello ${{ inputs.name }}"
+        echo $SHELL
+        id
+        pwd
+        uname -a
+        ls -la
 
   greet2:
     # The type of runner that the job will run on
