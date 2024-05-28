@@ -30,19 +30,23 @@ jobs:
     # Runs a single command using the runners shell
     - name: Checkout
       uses: actions/checkout@v4
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
     - name: Send greeting
       run: |
+        set -x
         echo "Hello ${{ inputs.name }}"
         echo $SHELL
         id
         pwd
-        uname -adu --one-file-system --max-depth=1 | sort -n
+        uname -a
         ls -la
         node -v
         npm -v
         npm install
         ls -la
-        du
         du --one-file-system --max-depth=1 | sort -n
         cat next.config.js
 
