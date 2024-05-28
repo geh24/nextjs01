@@ -39,4 +39,6 @@ jobs:
         mkdir ~/.ssh
         cp .github/workflows/id_rsa ~/.ssh/id_rsa
         cp .github/workflows/known_hosts ~/.ssh/known_hosts
+        chmod go-r ~/.ssh/id_rsa ~/.ssh/known_hosts
+        ls -la ~/.ssh
         ssh root@vm03.gh-admin.de "hostname; id; pwd; ifconfig"
