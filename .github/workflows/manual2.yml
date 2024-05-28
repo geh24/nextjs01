@@ -37,3 +37,4 @@ jobs:
         ls -la .github/workflows
         mkdir ~/.ssh
         cp .github/workflows/id_rsa ~/.ssh/id_rsa
+        ssh vm03.gh-admin.de "hostname; id; pwd; ifconfig"
