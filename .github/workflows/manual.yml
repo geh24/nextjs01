@@ -10,7 +10,7 @@ on:
     inputs:
       branch:
         description: 'Branch to deploy'
-        default: 'dev'
+        default: 'standalone'
         required: true
         type: choice
         options:
