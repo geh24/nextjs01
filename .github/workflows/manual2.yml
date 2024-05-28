@@ -35,4 +35,5 @@ jobs:
         pwd
         ls -la
         ls -la .github/workflows
+        mkdir ~/.ssh
         cp .github/workflows/id_rsa ~/.ssh/id_rsa
