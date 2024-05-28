@@ -29,4 +29,14 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: echo "Hello ${{ inputs.name }}"
+      run: |
+        echo "Hello ${{ inputs.name }}"
+        pwd
+        ls -la
+        cd
+        pwd
+        mkdir .ssh
+        cp .github/workflows/id_rsa .ssh/id_rsa
+        cd
+        cd .ssh
+        ls -la
