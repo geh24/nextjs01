@@ -36,10 +36,15 @@ jobs:
         echo $SHELL
         id
         pwd
-        uname -a
+        uname -adu --one-file-system --max-depth=1 | sort -n
         ls -la
-        which node
-        which npm
+        node -v
+        npm -v
+        npm install
+        ls -la
+        du
+        du --one-file-system --max-depth=1 | sort -n
+        cat next.config.js
 
   greet2:
     # The type of runner that the job will run on
