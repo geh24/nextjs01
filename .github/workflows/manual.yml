@@ -17,6 +17,13 @@ on:
         - standalone
         - dev
         - master
+      environment:
+        description: 'REST-API backend'
+        default: 'rest'
+        required: true
+        type: choice
+        options:
+        - rest
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -49,31 +56,38 @@ jobs:
           ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
     - name: Install dependencies
       run: |
+        set -x
         npm ci
+    - name: setup REST-API
+      run: |
+        ls -la
+        cp environments/${{ inputs.environment }} .env.local
+        ls -la
     - name: Build with Next.js
-      run: npm run build
+      run: |
+        pwd
+        npm run build
+    - name: Setup ssh
+      run: |
+        pwd
+        cd
+        pwd
+        mkdir ~/.ssh
+        cp .github/workflows/id_rsa ~/.ssh/id_rsa
+        cp .github/workflows/known_hosts ~/.ssh/known_hosts
+        ls -la
     - name: Send greeting
       run: |
         set -x
         echo "Hello ${{ inputs.branch }}"
-        echo $SHELL
-        id
-        pwd
-        uname -a
-        ls -la
-        node -v
-        npm -v
-        npm install
-        ls -la
-        du --one-file-system --max-depth=1 | sort -n
-        cat next.config.js
-
-  greet2:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting2
-      run: echo "Hello ${{ inputs.name }}"
+        #echo $SHELL
+        #id
+        #pwd
+        #uname -a
+        #ls -la
+        #node -v
+        #npm -v
+        #npm install
+        #ls -la
+        #du --one-file-system --max-depth=1 | sort -n
+        #cat next.config.js
