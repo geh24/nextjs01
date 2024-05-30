@@ -59,7 +59,7 @@ jobs:
       run: |
         set -x
         pwd
-        cp ~/.github/environments/${{ inputs.environment }} .env.local
+        cp .github/environments/${{ inputs.environment }} .env.local
         ls -la
     - name: Checkout selected branch
       uses: actions/checkout@v4
