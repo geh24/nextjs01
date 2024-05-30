@@ -85,11 +85,13 @@ jobs:
         #tar cjf ~/standalone.tar.bz2 .
         #ls -la ~/standalone.tar.bz2
         touch ~/gh.tar
+        date
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
         name: gh-artifact
         path: ~/gh.tar
+        compression-level: 0
         overwrite: true
 
   # Job VC-Deploy
@@ -105,6 +107,10 @@ jobs:
       with:
         ref: master
         sparse-checkout: .github
+    - name: Test1
+      run: |
+        set -x
+        date
     - name: Download
       uses: actions/download-artifact@v4
       with:
