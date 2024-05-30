@@ -36,40 +36,18 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains one job
-  VC-BuildDeploy:
+  # This workflow contains two jobs
+  VC-Buildy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-    - name: Checkout master
-      uses: actions/checkout@v4
-      with:
-        ref: master
-    - name: Setup ssh
-      run: |
-        set -x
-        pwd
-        mkdir ~/.ssh
-        cp .github/workflows/id_rsa ~/.ssh/id_rsa
-        chmod go-r ~/.ssh/id_rsa
-        cp .github/workflows/known_hosts ~/.ssh/known_hosts
-    - name: setup REST-API
-      run: |
-        set -x
-        pwd
-        cp .github/environments/${{ inputs.environment }} .env.local
-        ls -la
     - name: Checkout selected branch
       uses: actions/checkout@v4
       with:
         ref: '${{ inputs.branch }}'
-    - name: test_env
-      run: |
-        pwd
-        ls -la
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
@@ -93,8 +71,10 @@ jobs:
       run: |
         set -x
         pwd
-        #npm run build
+        # setup REST-API
+        cp .environments/${{ inputs.environment }} .env.local
         ls -la
+        #npm run build
         #cd .next
         #ls -la
         #cd standalone
@@ -104,12 +84,36 @@ jobs:
         #npm i sharp
         #tar cjf ~/standalone.tar.bz2 .
         #ls -la ~/standalone.tar.bz2
+
+  # This workflow contains two jobs
+  VC-Deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Runs a single command using the runners shell
+    - name: Checkout master
+      uses: actions/checkout@v4
+      with:
+        ref: master
+        sparse-checkout: '.github/workflows'
+    - name: Test
+      run: |
+        set -x
+        pwd
+        ls -la
+    - name: Setup ssh
+      run: |
+        set -x
+        pwd
+        mkdir ~/.ssh
+        cp .github/workflows/id_rsa ~/.ssh/id_rsa
+        chmod go-r ~/.ssh/id_rsa
+        cp .github/workflows/known_hosts ~/.ssh/known_hosts
     - name: SSH
       run: |
         set -x
         echo "Hello ${{ inputs.branch }}"
         ssh ${{ inputs.host }}@vm03.gh-admin.de "hostname; id; pwd"
         pwd
-        cd
-        pwd
-        ls -la .ssh
