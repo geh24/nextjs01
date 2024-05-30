@@ -30,3 +30,13 @@ jobs:
     # Runs a single command using the runners shell
     - name: Send greeting
       run: echo "Hello ${{ inputs.name }}"
+    - name: Checkout master
+      uses: actions/checkout@v4
+      with:
+        ref: master
+        sparse-checkout: '.github/workflows'
+    - name: Test
+      run: |
+        set -x
+        pwd
+        ls -la
