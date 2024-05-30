@@ -36,8 +36,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a two jobs called "greet" and "greet2"
-  greet:
+  # This workflow contains one job
+  VC-BuildDeploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -54,6 +54,7 @@ jobs:
         pwd
         mkdir ~/.ssh
         cp .github/workflows/id_rsa ~/.ssh/id_rsa
+        chmod go-r ~/.ssh/id_rsa
         cp .github/workflows/known_hosts ~/.ssh/known_hosts
     - name: setup REST-API
       run: |
@@ -89,8 +90,21 @@ jobs:
         set -x
         pwd
         npm run build
+        ls -la
+        cd .next
+        ls -la
+        cd standalone
+        ls -la
+        cp -r ../../public/ .
+        cp -r ../static/ ./.next
+        npm i sharp
+        tar cjf ~/standalone.tar.bz2
     - name: SSH
       run: |
         set -x
         echo "Hello ${{ inputs.branch }}"
         ssh ${{ inputs.host }}@vm03.gh-admin.de "hostname; id; pwd"
+        pwd
+        cd
+        pwd
+        ls -la .ssh
