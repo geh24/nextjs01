@@ -124,8 +124,8 @@ jobs:
         ssh ${{ inputs.host }}@vm03.gh-admin.de "sudo /usr/bin/systemctl stop ${{ inputs.host }}"
         sleep 10
         date
-        ssh ${{ inputs.host }}@vm03.gh-admin.de "rm -fr /data/www/${{ inputs.host }}/.[en] /data/www/${{ inputs.host }}/*"
-        scp standalone.tar.bz2 {{ inputs.host }}@vm03.gh-admin.de:/data/www/${{ inputs.host }}
+        ssh ${{ inputs.host }}@vm03.gh-admin.de "rm -fr /data/www/${{ inputs.host }}/.[en]* /data/www/${{ inputs.host }}/*"
+        scp standalone.tar.bz2 ${{ inputs.host }}@vm03.gh-admin.de:/data/www/${{ inputs.host }}
         ssh ${{ inputs.host }}@vm03.gh-admin.de "cd /data/www/${{ inputs.host }}; xvfj /data/www/${{ inputs.host }}; ls -la"
         date
         ssh ${{ inputs.host }}@vm03.gh-admin.de "sudo /usr/bin/systemctl start ${{ inputs.host }}"
