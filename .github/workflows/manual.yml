@@ -81,7 +81,6 @@ jobs:
         #tar cjf ~/standalone.tar.bz2 .
         #ls -la ~/standalone.tar.bz2
         touch ~/gh.tar
-        date
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
@@ -100,15 +99,10 @@ jobs:
       with:
         ref: master
         sparse-checkout: .github
-    - name: Test1
-      run: |
-        set -x
-        date
     - name: Download
       uses: actions/download-artifact@v4
       with:
         name: gh-artifact
-        path: ~/gh.tar
     - name: Test
       run: |
         set -x
@@ -129,4 +123,9 @@ jobs:
         set -x
         echo "Hello ${{ inputs.branch }}"
         ssh ${{ inputs.host }}@vm03.gh-admin.de "hostname; id; pwd"
-        pwd
+        date
+        ssh ${{ inputs.host }}@vm03 "sudo /usr/bin/systemctl stop ${{ inputs.host }}"
+        sleep 10
+        date
+        ssh ${{ inputs.host }}@vm03 "sudo /usr/bin/systemctl start ${{ inputs.host }}"
+        date
