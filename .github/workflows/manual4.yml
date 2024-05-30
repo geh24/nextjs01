@@ -67,3 +67,21 @@ jobs:
       run: |
         set -x
         npm ci
+    - name: Build with Next.js
+      run: |
+        set -x
+        pwd
+        # setup REST-API
+        cp .environments/${{ inputs.environment }} .env.local
+        ls -la
+        #npm run build
+        #cd .next
+        #ls -la
+        #cd standalone
+        #ls -la
+        #cp -r ../../public/ .
+        #cp -r ../static/ ./.next
+        #npm i sharp
+        #tar cjf ~/standalone.tar.bz2 .
+        #ls -la ~/standalone.tar.bz2
+        touch ~/gh.tar
