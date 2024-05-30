@@ -78,14 +78,16 @@ jobs:
         #cp -r ../../public/ .
         #cp -r ../static/ ./.next
         #npm i sharp
-        #tar cjf ~/standalone.tar.bz2 .
-        #ls -la ~/standalone.tar.bz2
-        touch ~/gh.tar
+        mkdir standalone
+        echo gh1 > standalone/gh1
+        echo gh2 > standalone/gh2.md
+        tar cjf ~/standalone.tar.bz2 .
+        ls -la ~/standalone.tar.bz2
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
         name: gh-artifact
-        path: ~/gh.tar
+        path: ~/standalone.tar.bz2
         compression-level: 0
         overwrite: true
 
@@ -107,8 +109,6 @@ jobs:
     - name: Test
       run: |
         set -x
-        pwd
-        ls -la
         cd
         ls -la
     - name: Setup ssh
@@ -127,6 +127,10 @@ jobs:
         date
         ssh ${{ inputs.host }}@vm03.gh-admin.de "sudo /usr/bin/systemctl stop ${{ inputs.host }}"
         sleep 10
+        date
+        ssh ${{ inputs.host }}@vm03.gh-admin.de "rm -fr /data/www/${{ inputs.host }}/.* /data/www/${{ inputs.host }}/*"
+        scp standalone.tar.bz2 {{ inputs.host }}@vm03.gh-admin.de:/data/www/${{ inputs.host }}
+        ssh ${{ inputs.host }}@vm03.gh-admin.de "cd /data/www/${{ inputs.host }}; xvfj /data/www/${{ inputs.host }}; ls -la"
         date
         ssh ${{ inputs.host }}@vm03.gh-admin.de "sudo /usr/bin/systemctl start ${{ inputs.host }}"
         date
