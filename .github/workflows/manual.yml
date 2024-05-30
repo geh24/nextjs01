@@ -118,8 +118,8 @@ jobs:
     - name: SSH
       run: |
         set -x
-        echo "Hello ${{ inputs.branch }}"
-        ssh ${{ inputs.host }}@vm03.gh-admin.de "hostname; id; pwd"
+        cd
+        ssh ${{ inputs.host }}@vm03.gh-admin.de "hostname; id"
         date
         ssh ${{ inputs.host }}@vm03.gh-admin.de "sudo /usr/bin/systemctl stop ${{ inputs.host }}"
         sleep 10
