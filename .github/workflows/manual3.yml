@@ -110,24 +110,3 @@ jobs:
         with:
           name: gh-artifact
           path: ~/gh.tar
-    - name: Test
-      run: |
-        set -x
-        pwd
-        ls -la
-        cd
-        ls -la
-    - name: Setup ssh
-      run: |
-        set -x
-        pwd
-        mkdir ~/.ssh
-        cp .github/workflows/id_rsa ~/.ssh/id_rsa
-        chmod go-r ~/.ssh/id_rsa
-        cp .github/workflows/known_hosts ~/.ssh/known_hosts
-    - name: SSH
-      run: |
-        set -x
-        echo "Hello ${{ inputs.branch }}"
-        ssh ${{ inputs.host }}@vm03.gh-admin.de "hostname; id; pwd"
-        pwd
