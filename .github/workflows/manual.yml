@@ -36,14 +36,10 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains two jobs
-  VC-Buildy:
-    # The type of runner that the job will run on
+  # Job VC-Build
+  VC-Build:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
     - name: Checkout selected branch
       uses: actions/checkout@v4
       with:
@@ -96,12 +92,9 @@ jobs:
 
   # Job VC-Deploy
   VC-Deploy:
-    # The type of runner that the job will run on
+    needs: VC-Build
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
     - name: Checkout master
       uses: actions/checkout@v4
       with:
