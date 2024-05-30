@@ -103,6 +103,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: gh-artifact
+        path: ~/
     - name: Test
       run: |
         set -x
@@ -124,8 +125,8 @@ jobs:
         echo "Hello ${{ inputs.branch }}"
         ssh ${{ inputs.host }}@vm03.gh-admin.de "hostname; id; pwd"
         date
-        ssh ${{ inputs.host }}@vm03 "sudo /usr/bin/systemctl stop ${{ inputs.host }}"
+        ssh ${{ inputs.host }}@vm03.gh-admin.de "sudo /usr/bin/systemctl stop ${{ inputs.host }}"
         sleep 10
         date
-        ssh ${{ inputs.host }}@vm03 "sudo /usr/bin/systemctl start ${{ inputs.host }}"
+        ssh ${{ inputs.host }}@vm03.gh-admin.de "sudo /usr/bin/systemctl start ${{ inputs.host }}"
         date
