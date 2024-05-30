@@ -66,6 +66,10 @@ jobs:
       uses: actions/checkout@v4
       with:
         ref: '${{ inputs.branch }}'
+    - name: test_env
+      run: |
+        pwd
+        ls -la
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
@@ -89,17 +93,17 @@ jobs:
       run: |
         set -x
         pwd
-        npm run build
+        #npm run build
         ls -la
-        cd .next
-        ls -la
-        cd standalone
-        ls -la
-        cp -r ../../public/ .
-        cp -r ../static/ ./.next
-        npm i sharp
-        tar cjf ~/standalone.tar.bz2 .
-        ls -la ~/standalone.tar.bz2
+        #cd .next
+        #ls -la
+        #cd standalone
+        #ls -la
+        #cp -r ../../public/ .
+        #cp -r ../static/ ./.next
+        #npm i sharp
+        #tar cjf ~/standalone.tar.bz2 .
+        #ls -la ~/standalone.tar.bz2
     - name: SSH
       run: |
         set -x
