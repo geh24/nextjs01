@@ -51,7 +51,7 @@ jobs:
     - name: Setup ssh
       run: |
         set -x
-        cd
+        pwd
         mkdir ~/.ssh
         cp .github/workflows/id_rsa ~/.ssh/id_rsa
         cp .github/workflows/known_hosts ~/.ssh/known_hosts
