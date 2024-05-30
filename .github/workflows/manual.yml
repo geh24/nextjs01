@@ -98,7 +98,8 @@ jobs:
         cp -r ../../public/ .
         cp -r ../static/ ./.next
         npm i sharp
-        tar cjf ~/standalone.tar.bz2
+        tar cjf ~/standalone.tar.bz2 .
+        ls -la ~/standalone.tar.bz2
     - name: SSH
       run: |
         set -x
