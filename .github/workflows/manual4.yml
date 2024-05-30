@@ -85,12 +85,6 @@ jobs:
         #tar cjf ~/standalone.tar.bz2 .
         #ls -la ~/standalone.tar.bz2
         touch ~/gh.tar
-    - name: Upload
-      uses: actions/upload-artifact@v4
-        with:
-          name: gh-artifact
-          path: ~/gh.tar
-          overwrite: true
 
         #tar cjf ~/standalone.tar.bz2 .
         #ls -la ~/standalone.tar.bz2
