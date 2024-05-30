@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual3
+name: Manual3 workflow
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -8,37 +8,126 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
+      branch:
+        description: 'Branch to deploy'
+        default: 'standalone'
         required: true
-        # The data type of the input
-        type: string
+        type: choice
+        options:
+        - standalone
+        - dev
+        - master
+      host:
+        description: 'Host to deploy'
+        default: 'nextjs03'
+        required: true
+        type: choice
+        options:
+        - nextjs01
+        - nextjs02
+        - nextjs03
+      environment:
+        description: 'REST-API backend'
+        default: 'rest'
+        required: true
+        type: choice
+        options:
+        - rest
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
+  # This workflow contains two jobs
+  VC-Buildy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ inputs.name }}"
+    - name: Checkout selected branch
+      uses: actions/checkout@v4
+      with:
+        ref: '${{ inputs.branch }}'
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+    - name: Restore cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          .next/cache
+        # Generate a new cache whenever packages or source files change.
+        key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+        # If source files changed but packages didn't, rebuild from a prior cache.
+        restore-keys: |
+          ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+    - name: Install dependencies
+      run: |
+        set -x
+        npm ci
+    - name: Build with Next.js
+      run: |
+        set -x
+        pwd
+        # setup REST-API
+        cp .environments/${{ inputs.environment }} .env.local
+        ls -la
+        #npm run build
+        #cd .next
+        #ls -la
+        #cd standalone
+        #ls -la
+        #cp -r ../../public/ .
+        #cp -r ../static/ ./.next
+        #npm i sharp
+        #tar cjf ~/standalone.tar.bz2 .
+        #ls -la ~/standalone.tar.bz2
+        touch ~/gh.tar
+    - name: Upload
+      uses: actions/upload-artifact@v4
+        with:
+          name: gh-artifact
+          path: ~/gh.tar
+          overwrite: true
+      
+  # This workflow contains two jobs
+  VC-Deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Runs a single command using the runners shell
     - name: Checkout master
       uses: actions/checkout@v4
       with:
         ref: master
         sparse-checkout: .github
+    - name: Download
+      uses: actions/download-artifact@v4
+        with:
+          name: gh-artifact
+          path: ~/gh.tar
     - name: Test
       run: |
         set -x
         pwd
         ls -la
-        ls -la .github
-
+        cd
+        ls -la
+    - name: Setup ssh
+      run: |
+        set -x
+        pwd
+        mkdir ~/.ssh
+        cp .github/workflows/id_rsa ~/.ssh/id_rsa
+        chmod go-r ~/.ssh/id_rsa
+        cp .github/workflows/known_hosts ~/.ssh/known_hosts
+    - name: SSH
+      run: |
+        set -x
+        echo "Hello ${{ inputs.branch }}"
+        ssh ${{ inputs.host }}@vm03.gh-admin.de "hostname; id; pwd"
+        pwd
